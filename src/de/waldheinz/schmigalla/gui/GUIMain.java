@@ -19,8 +19,11 @@ import java.io.FileInputStream;
  *
  * @author  Matthias Treydte <waldheinz@gmail.com>
  */
-public class GUIMain extends javax.swing.JFrame implements SolverListener {
-    
+public final class GUIMain extends javax.swing.JFrame
+        implements SolverListener {
+        
+    private final static long serialVersionUID = 1;
+
     private SchmigallaSolver solver;
     private Thread solverThread;
     private long lastStatsUpdate = 0;
@@ -107,6 +110,11 @@ public class GUIMain extends javax.swing.JFrame implements SolverListener {
         });
 
         saveButton.setText("speichern");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
 
         loadButton.setText("laden");
         loadButton.addActionListener(new java.awt.event.ActionListener() {
@@ -122,7 +130,7 @@ public class GUIMain extends javax.swing.JFrame implements SolverListener {
             .add(matrixPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(matrixPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(matrixScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
+                    .add(matrixScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 681, Short.MAX_VALUE)
                     .add(matrixPanelLayout.createSequentialGroup()
                         .add(addButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 343, Short.MAX_VALUE)
@@ -140,7 +148,7 @@ public class GUIMain extends javax.swing.JFrame implements SolverListener {
             matrixPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, matrixPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(matrixScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
+                .add(matrixScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(matrixPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(addButton)
@@ -188,7 +196,7 @@ public class GUIMain extends javax.swing.JFrame implements SolverListener {
                 .addContainerGap()
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
                 .addContainerGap())
         );
         solutionsPanelLayout.setVerticalGroup(
@@ -196,8 +204,8 @@ public class GUIMain extends javax.swing.JFrame implements SolverListener {
             .add(org.jdesktop.layout.GroupLayout.TRAILING, solutionsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(solutionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -231,7 +239,7 @@ public class GUIMain extends javax.swing.JFrame implements SolverListener {
             .add(org.jdesktop.layout.GroupLayout.TRAILING, progressPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(progressPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 681, Short.MAX_VALUE)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, progressPanelLayout.createSequentialGroup()
                         .add(progressPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(jLabel2)
@@ -249,7 +257,7 @@ public class GUIMain extends javax.swing.JFrame implements SolverListener {
             progressPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, progressPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
+                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(progressPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel2)
@@ -330,6 +338,10 @@ public class GUIMain extends javax.swing.JFrame implements SolverListener {
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         matrixTableModel.createNewColumn();
     }//GEN-LAST:event_addButtonActionPerformed
+
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        
+    }//GEN-LAST:event_saveButtonActionPerformed
     
     /**
      * @param args the command line arguments
