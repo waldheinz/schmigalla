@@ -11,9 +11,12 @@ import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import de.waldheinz.schmigalla.CSVReaderAdapter;
+import de.waldheinz.schmigalla.CsvWriter;
 import de.waldheinz.schmigalla.SchmigallaSolver;
 import de.waldheinz.schmigalla.SolverListener;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -286,17 +289,21 @@ public final class GUIMain extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void loadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadButtonActionPerformed
-        JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
+        JFileChooser fc = new JFileChooser(System.getProperty("user.home"));
         int rc = fc.showDialog(null, "Select Data File");
         if (rc == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
+            
             try {
                 CSVReaderAdapter cra = new CSVReaderAdapter(
                         new FileInputStream(file));
                 this.matrixTableModel.setColumnNames(cra.getNames());
                 this.matrixTableModel.setValues(cra.getValues());
             } catch (IOException ex) {
-                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this,
+                    ex.getLocalizedMessage(),
+                    "Fehler beim Lesen",
+                    JOptionPane.ERROR_MESSAGE);
             }
             
         }
@@ -340,7 +347,27 @@ public final class GUIMain extends javax.swing.JFrame
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        JFileChooser fc = new JFileChooser(System.getProperty("user.home"));
+        int rc = fc.showSaveDialog(GUIMain.this);
         
+        if (rc == JFileChooser.APPROVE_OPTION) {
+            
+            try {
+                CsvWriter w = new CsvWriter(
+                        this.matrixTableModel.getColumnNames(),
+                        this.matrixTableModel.getValues());
+                
+                w.write(new FileOutputStream(fc.getSelectedFile()));
+                
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this,
+                    ex.getLocalizedMessage(),
+                    "Fehler beim Schreiben",
+                    JOptionPane.ERROR_MESSAGE);
+
+            }
+
+        }
     }//GEN-LAST:event_saveButtonActionPerformed
     
     /**

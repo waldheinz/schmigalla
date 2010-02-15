@@ -30,8 +30,6 @@ public final class CsvWriter {
 
         /* write the header */
         
-//        ps.print("\"\", "); //NOI18N
-        
         for (int i=0; i < names.length; i++) {
             ps.print("\"" + names[i] + "\""); //NOI18N
             
@@ -43,7 +41,10 @@ public final class CsvWriter {
         /* write the data */
         
         for (int i=0; i < values.length; i++) {
-//            ps.print("\"" + names[i] + "\", "); //NOI18N
+
+            for (int j=0; j <= i; j++) {
+                ps.print("0.0, "); //NOI18N
+            }
 
             for (int j=0; j < values[i].length; j++) {
                 ps.print(values[i][j]);

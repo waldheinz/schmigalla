@@ -16,7 +16,8 @@ import javax.swing.table.AbstractTableModel;
  * @author Matthias Treydte <waldheinz@gmail.com>
  */
 public class MatrixTableModel extends AbstractTableModel {
-    
+    private final static long serialVersionUID = 1;
+
     /** The values of the intensity matrix. */
     protected ArrayList<ArrayList<Float>> matrix;
     
@@ -123,6 +124,10 @@ public class MatrixTableModel extends AbstractTableModel {
     
     public void setColumnNames(String[] names) {
         this.names = new ArrayList<String>(Arrays.asList(names));
+    }
+
+    public String[] getColumnNames() {
+        return this.names.toArray(new String[this.names.size()]);
     }
     
     @Override
