@@ -7,13 +7,13 @@
 package de.waldheinz.schmigalla.gui;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import de.waldheinz.schmigalla.CSVReaderAdapter;
 import de.waldheinz.schmigalla.SchmigallaSolver;
 import de.waldheinz.schmigalla.SolverListener;
+import java.io.FileInputStream;
 
 /**
  *
@@ -283,10 +283,10 @@ public class GUIMain extends javax.swing.JFrame implements SolverListener {
         if (rc == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             try {
-                CSVReaderAdapter cra = new CSVReaderAdapter(file);
+                CSVReaderAdapter cra = new CSVReaderAdapter(
+                        new FileInputStream(file));
                 this.matrixTableModel.setColumnNames(cra.getNames());
                 this.matrixTableModel.setValues(cra.getValues());
-                
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

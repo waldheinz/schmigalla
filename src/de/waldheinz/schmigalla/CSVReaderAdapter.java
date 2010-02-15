@@ -7,29 +7,31 @@
 package de.waldheinz.schmigalla;
 
 import com.csvreader.CsvReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 
 /**
  *
  * @author Matthias Treydte <waldheinz@gmail.com>
  */
-public class CSVReaderAdapter {
+public final class CSVReaderAdapter {
     
     protected final CsvReader reader;
     protected float[][] values;
     protected String[] names;
     protected boolean isRead;
     
-    /** Creates a new instance of CSVReaderAdapter */
-    public CSVReaderAdapter(File file) throws FileNotFoundException {
+    /**
+     * Creates a new instance of CSVReaderAdapter that reads from the specified
+     * stream.
+     * 
+     * @param is the stream to read the CSVs from
+     */
+    public CSVReaderAdapter(InputStream is) {
         this.reader = 
               new CsvReader(
-              new InputStreamReader(
-              new FileInputStream(file)));
+              new InputStreamReader(is));
         
         this.isRead = false;
     }
@@ -56,7 +58,8 @@ public class CSVReaderAdapter {
                     float val = Float.parseFloat(vals[col]);
                     values[col][row - col - 1] += val;
                 } catch (NumberFormatException e) {
-                    throw new FileFormatException("\"" + vals[col] + "\" is not a number");
+                    throw new IOException(
+                            "\"" + vals[col] + "\" is not a number");
                 }
                 
                 col++;
@@ -70,7 +73,8 @@ public class CSVReaderAdapter {
                     float val = Float.parseFloat(vals[col]);
                     values[row][col - row - 1] = val;
                 } catch (NumberFormatException e) {
-                    throw new FileFormatException("\"" + vals[col] + "\" is not a number");
+                    throw new IOException(
+                            "\"" + vals[col] + "\" is not a number");
                 }
                 
                 col++;
@@ -95,9 +99,4 @@ public class CSVReaderAdapter {
         return values;
     }
     
-    public static class FileFormatException extends IOException {
-        public FileFormatException(String message) {
-            super(message);
-        }
-    }
 }
