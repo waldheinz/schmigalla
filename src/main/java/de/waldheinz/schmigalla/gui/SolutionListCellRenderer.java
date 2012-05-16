@@ -6,11 +6,11 @@
 
 package de.waldheinz.schmigalla.gui;
 
+import de.waldheinz.schmigalla.SchmigallaSolver;
 import java.awt.Component;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
-import de.waldheinz.schmigalla.SchmigallaSolver;
 
 /**
  *
@@ -24,6 +24,7 @@ public class SolutionListCellRenderer extends JLabel implements
         this.setOpaque(true);
     }
 
+    @Override
     public Component getListCellRendererComponent(JList list, Object value,
           int index, boolean selected, boolean focus) {
         

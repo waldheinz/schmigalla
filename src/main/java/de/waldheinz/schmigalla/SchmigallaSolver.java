@@ -202,7 +202,7 @@ public class SchmigallaSolver implements Runnable {
         }
         
         /* we found a solution */
-        if (todo.size() == 0) {
+        if (todo.isEmpty()) {
             //System.out.println("New best cost: " + costSoFar);
             Board copy = (Board)b.clone();
             copy.setCost(costSoFar);
@@ -229,6 +229,8 @@ public class SchmigallaSolver implements Runnable {
         Piece[] pcs = new Piece[todo.size()];
         todo.toArray(pcs);
         Arrays.sort(pcs, new Comparator<Piece>() {
+            
+            @Override
             public int compare(Piece p1, Piece p2) {
                 final Piece[] p = {p1, p2};
                 final float[] in = {0, 0};
@@ -285,6 +287,8 @@ public class SchmigallaSolver implements Runnable {
             Coord cs[] = new Coord[b.getCandidates().size()];
             b.getCandidates().toArray(cs);
             Arrays.sort(cs, new Comparator<Coord>() {
+                
+                @Override
                 public int compare(Coord c1, Coord c2) {
                     Coord[] cc = {c1, c2};
                     int co[] = {0, 0};
@@ -345,6 +349,7 @@ public class SchmigallaSolver implements Runnable {
         return lb;
     }
 
+    @Override
     public void run() {
         solve();
     }
@@ -409,6 +414,7 @@ public class SchmigallaSolver implements Runnable {
             }
         }
         
+        @Override
         public int compareTo(Coord oc) {
             if (oc.y == y) {
                 return x - oc.x;
@@ -420,6 +426,14 @@ public class SchmigallaSolver implements Runnable {
         public boolean equals(Object o) {
             if (!(o instanceof Coord)) return false;
             return (((Coord)o).x == x) && (((Coord)o).y == y);
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = 3;
+            hash = 11 * hash + this.x;
+            hash = 11 * hash + this.y;
+            return hash;
         }
 
         @Override
@@ -532,6 +546,8 @@ public class SchmigallaSolver implements Runnable {
             pieces.toArray(pcs);
             
             Arrays.sort(pcs, new Comparator<Piece>() {
+                
+                @Override
                 public int compare(Piece p1, Piece p2) {
                     return p1.pos.compareTo(p2.pos);
                 }
@@ -592,6 +608,7 @@ public class SchmigallaSolver implements Runnable {
             return true;
         }
 
+        @Override
         public int hashCode() {
             int hash = pieces.size();
             
@@ -635,6 +652,7 @@ public class SchmigallaSolver implements Runnable {
             neighbours.add(p);
         }
         
+        @Override
         public int compareTo(Piece p) {
             return nr - p.nr;
         }
@@ -663,15 +681,24 @@ public class SchmigallaSolver implements Runnable {
             return pos;
         }
         
+        @Override
         public boolean equals(Object o) {
             if (!(o instanceof Piece)) return false;
             Piece op = (Piece)o;
             return op.nr == nr;
         }
 
+        @Override
+        public int hashCode() {
+            int hash = 5;
+            hash = 97 * hash + this.nr;
+            return hash;
+        }
+
+        @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
-            sb.append("Piece #" + nr + " neighbours: [");
+            sb.append("Piece #").append(nr).append(" neighbours: [");
             
             for (int i=0; i < neighbours.size(); i++) {
                 sb.append(neighbours.get(i).nr);

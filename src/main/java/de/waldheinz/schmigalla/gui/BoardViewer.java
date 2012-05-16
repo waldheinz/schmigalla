@@ -6,6 +6,7 @@
 
 package de.waldheinz.schmigalla.gui;
 
+import de.waldheinz.schmigalla.SchmigallaSolver;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,7 +14,6 @@ import java.awt.Rectangle;
 import java.awt.font.GlyphVector;
 import javax.swing.JPanel;
 import javax.swing.Scrollable;
-import de.waldheinz.schmigalla.SchmigallaSolver;
 
 /**
  *
@@ -30,6 +30,7 @@ public class BoardViewer extends JPanel implements Scrollable {
     
     /** Creates a new instance of BoardViewer */
     public BoardViewer() {
+        
     }
     
     public void setBoard(SchmigallaSolver.Board board) {
@@ -68,22 +69,27 @@ public class BoardViewer extends JPanel implements Scrollable {
         return board;
     }
 
+    @Override
     public Dimension getPreferredScrollableViewportSize() {
         return getPreferredSize();
     }
 
+    @Override
     public int getScrollableUnitIncrement(Rectangle rectangle, int i, int i0) {
         return 10;
     }
 
+    @Override
     public int getScrollableBlockIncrement(Rectangle rectangle, int i, int i0) {
         return 20;
     }
 
+    @Override
     public boolean getScrollableTracksViewportWidth() {
         return false;
     }
 
+    @Override
     public boolean getScrollableTracksViewportHeight() {
         return false;
     }

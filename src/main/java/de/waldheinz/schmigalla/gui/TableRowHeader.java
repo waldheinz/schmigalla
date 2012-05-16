@@ -11,12 +11,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JViewport;
-import javax.swing.UIManager;
+import javax.swing.*;
 
 /**
  *
@@ -37,10 +32,12 @@ public class TableRowHeader extends JViewport implements AdjustmentListener{
       parent.getHorizontalScrollBar().addAdjustmentListener( this );
    }
    
+    @Override
    public void adjustmentValueChanged( AdjustmentEvent e ) {
       repaint();
    }
 
+    @Override
    public void paint(Graphics g) {
       Rectangle rec = TableRowHeader.this.getViewRect();
       
@@ -81,10 +78,12 @@ public class TableRowHeader extends JViewport implements AdjustmentListener{
 
    // Nur eine leere Hülle, damit eine "Simulation" aufgebaut werden kann.
    private static class Dummy extends JComponent{
+        @Override
       public void paint( Graphics g ){
          // do nothing
       }
 
+        @Override
       public void update( Graphics g ) {
          // do nothing
       }

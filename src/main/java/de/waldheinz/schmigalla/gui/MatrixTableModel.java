@@ -15,7 +15,7 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Matthias Treydte <waldheinz@gmail.com>
  */
-public class MatrixTableModel extends AbstractTableModel {
+public final class MatrixTableModel extends AbstractTableModel {
     private final static long serialVersionUID = 1;
 
     /** The values of the intensity matrix. */
@@ -49,10 +49,12 @@ public class MatrixTableModel extends AbstractTableModel {
         
     }
 
+    @Override
     public int getRowCount() {
         return matrix.size() + 1;
     }
 
+    @Override
     public int getColumnCount() {
         return matrix.get(0).size() + 1;
     }
@@ -82,6 +84,7 @@ public class MatrixTableModel extends AbstractTableModel {
         }
     }
     
+    @Override
     public Object getValueAt(int row, int col) {
         if (row >= getRowCount()) throw new NoSuchElementException(
               "row index " + row + " out of bounds");
@@ -135,7 +138,7 @@ public class MatrixTableModel extends AbstractTableModel {
         if (!isCellEditable(row, col)) throw new IllegalArgumentException(
               "the cell is not editable"); //NOI18N
         
-        float newVal = 0.0f;
+        float newVal;
         
         try {
             newVal = Float.parseFloat(val.toString());

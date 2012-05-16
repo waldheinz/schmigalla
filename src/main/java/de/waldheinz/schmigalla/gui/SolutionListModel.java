@@ -6,10 +6,10 @@
 
 package de.waldheinz.schmigalla.gui;
 
-import javax.swing.DefaultListModel;
-import javax.swing.SwingUtilities;
 import de.waldheinz.schmigalla.SchmigallaSolver;
 import de.waldheinz.schmigalla.SolverListener;
+import javax.swing.DefaultListModel;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -18,11 +18,13 @@ import de.waldheinz.schmigalla.SolverListener;
 public class SolutionListModel extends DefaultListModel implements
       SolverListener {
     
+    @Override
     public void solutionFound(SchmigallaSolver solver,
           final SchmigallaSolver.Board solution) {
         
         
         SwingUtilities.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 if (!contains(solution))
                     addElement(solution);
@@ -30,12 +32,14 @@ public class SolutionListModel extends DefaultListModel implements
         });
     }
     
+    @Override
     public void progressMade(SchmigallaSolver solver, float progress, int cachesize,
           SchmigallaSolver.Board board) {
         
         /* ignore */
     }
 
+    @Override
     public void solverStopped() {
         /* ignore */
     }
