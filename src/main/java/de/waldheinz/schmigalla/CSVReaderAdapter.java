@@ -6,10 +6,10 @@
 
 package de.waldheinz.schmigalla;
 
-import com.csvreader.CsvReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import org.jumpmind.symmetric.csv.CsvReader;
 
 /**
  *
