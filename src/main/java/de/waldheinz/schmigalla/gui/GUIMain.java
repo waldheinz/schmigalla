@@ -375,18 +375,21 @@ public final class GUIMain extends javax.swing.JFrame
      */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new GUIMain().setVisible(true);
             }
         });
     }
 
+    @Override
     public void solutionFound(SchmigallaSolver solver,
           SchmigallaSolver.Board solution) {
         
         /* ignore */
     }
 
+    @Override
     public void progressMade(SchmigallaSolver solver, final float cacheR,
           final int cacheUsed, final SchmigallaSolver.Board board) {
         
@@ -399,6 +402,7 @@ public final class GUIMain extends javax.swing.JFrame
                   (SchmigallaSolver.Board)board.clone();
 
             SwingUtilities.invokeLater(new Runnable() {
+                @Override
                 public void run() {        
                     if (tabPane.getSelectedComponent() == progressPanel) {
                         progressBoardViewer.setBoard(copy);
@@ -410,6 +414,7 @@ public final class GUIMain extends javax.swing.JFrame
         }
     }
 
+    @Override
     public void solverStopped() {
         /* ignore */
     }

@@ -22,12 +22,15 @@ public class SolutionListModel extends DefaultListModel implements
     public void solutionFound(SchmigallaSolver solver,
           final SchmigallaSolver.Board solution) {
         
+        final SchmigallaSolver.Board copy =
+                (SchmigallaSolver.Board) solution.clone();
         
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                if (!contains(solution))
-                    addElement(solution);
+                System.out.println(size());
+//                if (!contains(copy))
+                    addElement(copy);
             }
         });
     }

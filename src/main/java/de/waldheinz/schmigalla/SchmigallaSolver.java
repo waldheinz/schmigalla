@@ -12,7 +12,7 @@ import java.util.*;
  *
  * @author Matthias Treydte <waldheinz@gmail.com>
  */
-public class SchmigallaSolver implements Runnable {
+public final class SchmigallaSolver implements Runnable {
     
     private ArrayList<SolverListener> listeners;
     
@@ -86,7 +86,8 @@ public class SchmigallaSolver implements Runnable {
     
     private Board b = new Board();
     private float bestCost = Float.POSITIVE_INFINITY;
-    private float lB = 0.0f;
+    private final float lB;
+    private final List<Piece> todo;
     
     /**
      * @param intensities The intensity matrix. This matrix is the input for
@@ -111,6 +112,8 @@ public class SchmigallaSolver implements Runnable {
         this.listeners = new ArrayList<SolverListener>();
         this.cache = new LRUCache();
         this.shouldStop = false;
+        this.todo = createTodo();
+        this.lB = lowerBound(todo);
     }
     
     public void addSolverListener(SolverListener listener) {
@@ -131,42 +134,42 @@ public class SchmigallaSolver implements Runnable {
             l.progressMade(this, progress, cache.size(), current);
     }
     
-    public void solve() {
+    public List<Piece> createTodo() {
         /* generate the todo-stack */
-        List<Piece>todo = new LinkedList<Piece>();
+        final List<Piece> result = new LinkedList<Piece>();
+        
         for (int nr=0; nr < intensities.length; nr++) {
             float[] intensity = intensities[nr];
-            int idx = todo.indexOf(new Piece(nr));
+            int idx = result.indexOf(new Piece(nr));
             Piece p;
             if (idx < 0) {
                 /* create the current piece */
                 p = new Piece(nr);
-                todo.add(p);
+                result.add(p);
             } else
-                p = todo.get(idx);
+                p = result.get(idx);
             
             /* create or update the neighbours of this piece */
             for (int i=0; i < intensity.length; i++) {
                 if (intensity[i] == 0) continue;
                 
                 int n = nr + i + 1;
-                int nidx = todo.indexOf(new Piece(n));
+                int nidx = result.indexOf(new Piece(n));
                 Piece neighb;
                 
                 if (nidx < 0) {
-                    /* ok, create him */
+                    /* ok, create it */
                     neighb = new Piece(n);
-                    todo.add(neighb);
+                    result.add(neighb);
                 } else
-                    neighb = todo.get(nidx);
+                    neighb = result.get(nidx);
                 
                 p.addNeighbour(neighb);
                 neighb.addNeighbour(p);
             }
         }
         
-        lB = lowerBound(todo);
-        solve(b, todo, 0);
+        return result;
     }
     
     public float intensity(final Piece p1, final Piece p2) {
@@ -196,7 +199,7 @@ public class SchmigallaSolver implements Runnable {
     public float solve(final Board b, final List<Piece> todo, float costSoFar) {
         /* prune the tree */
         if ((costSoFar + lowerBound(todo)) > bestCost ||
-                /*bestCost == lB ||*/ shouldStop) {
+                bestCost == lB || shouldStop) {
             fireProgressMade(b, (float)cacheLookupsGood / cacheLookups);
             return Float.POSITIVE_INFINITY;
         }
@@ -204,10 +207,14 @@ public class SchmigallaSolver implements Runnable {
         /* we found a solution */
         if (todo.isEmpty()) {
             //System.out.println("New best cost: " + costSoFar);
-            Board copy = (Board)b.clone();
-            copy.setCost(costSoFar);
-            fireSolutionFound(copy);
-            bestCost = costSoFar;
+            
+            if (costSoFar < bestCost) {
+                final Board copy = (Board)b.clone();
+                copy.setCost(costSoFar);
+                fireSolutionFound(copy);
+                bestCost = costSoFar;
+            }
+            
             return costSoFar;
         }
         
@@ -351,7 +358,7 @@ public class SchmigallaSolver implements Runnable {
 
     @Override
     public void run() {
-        solve();
+        solve(b, this.todo, 0);
     }
     
     public static class Coord implements Comparable<Coord> {
@@ -585,11 +592,17 @@ public class SchmigallaSolver implements Runnable {
         
         @Override
         public Object clone() {
-            Board copy = new Board();
+            final Board copy = new Board();
             
             copy.pieces = new TreeSet<Piece>();
-            for (Piece p : pieces) copy.pieces.add((SchmigallaSolver.Piece) p.clone());
+            
+            for (Piece p : pieces) {
+                copy.pieces.add((SchmigallaSolver.Piece) p.clone());
+            }
+            
             copy.free = new ArrayList<Coord>(this.free);
+            copy.cost = this.cost;
+            
             return copy;
         }
         
