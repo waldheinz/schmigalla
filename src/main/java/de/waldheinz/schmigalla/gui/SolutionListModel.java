@@ -28,9 +28,7 @@ public class SolutionListModel extends DefaultListModel implements
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                System.out.println(size());
-//                if (!contains(copy))
-                    addElement(copy);
+                addElement(copy);
             }
         });
     }

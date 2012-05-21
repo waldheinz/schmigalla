@@ -7,10 +7,7 @@
 package de.waldheinz.schmigalla.gui;
 
 import de.waldheinz.schmigalla.SchmigallaSolver;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.font.GlyphVector;
 import javax.swing.JPanel;
 import javax.swing.Scrollable;
@@ -128,7 +125,11 @@ public class BoardViewer extends JPanel implements Scrollable {
     protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
         
-        Graphics2D g2d = (Graphics2D)graphics.create();
+        final Graphics2D g2d = (Graphics2D)graphics.create();
+        
+        g2d.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
         
         if (board == null) {
             g2d.drawString("Keine Lösung gewählt.", 50, 50);
@@ -152,7 +153,6 @@ public class BoardViewer extends JPanel implements Scrollable {
                       px + offset, py + offset,
                       dx + offset, dy + offset);
             }
-            
             
         }
         
